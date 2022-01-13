@@ -70,19 +70,19 @@ test("invoices URL should render expected content", async () => {
   screen.getByText(expectedContent);
 });
 
-test("Click in first 'Expenses' link should should show expenses title", async () => {
-  // Arrange
-  const initialURL = invoicesURL;
-  render(
-    <MemoryRouter initialEntries={[initialURL]}>
-      <App />
-    </MemoryRouter>
-  );
-  const linkElement = screen.getAllByText(/Expenses/i)[0];
+// test("Click in first 'Expenses' link should should show expenses title", async () => {
+//   // Arrange
+//   const initialURL = invoicesURL;
+//   render(
+//     <MemoryRouter initialEntries={[initialURL]}>
+//       <App />
+//     </MemoryRouter>
+//   );
+//   const linkElement = screen.getAllByText(/Expenses/i)[0];
 
-  // Act
-  linkElement.click();
+//   // Act
+//   linkElement.click();
 
-  // Assert
-  await waitFor(() => screen.getByText(expensesContent));
-});
+//   // Assert
+//   await waitFor(() => screen.getByText(expensesContent));
+// });
