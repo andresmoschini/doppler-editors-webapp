@@ -1,7 +1,9 @@
 import { ResultWithoutExpectedErrors } from "../abstractions/common/result-types";
 import { AppConfiguration } from "../abstractions";
-import { HtmlEditorApiClient } from "../abstractions/html-editor-api-client";
-import { Design } from "react-email-editor";
+import {
+  CampaignDesign,
+  HtmlEditorApiClient,
+} from "../abstractions/html-editor-api-client";
 import { AxiosStatic } from "axios";
 import { AppSessionStateAccessor } from "../abstractions/app-session";
 
@@ -46,7 +48,7 @@ export class HtmlEditorApiClientImpl implements HtmlEditorApiClient {
 
   async getCampaignContent(
     campaignId: string
-  ): Promise<ResultWithoutExpectedErrors<Design>> {
+  ): Promise<ResultWithoutExpectedErrors<CampaignDesign>> {
     try {
       const response = await this.GET<any>(
         `/campaigns/${campaignId}/content/design`
@@ -54,7 +56,7 @@ export class HtmlEditorApiClientImpl implements HtmlEditorApiClient {
       return {
         success: true,
         // TODO: consider to sanitize and validate this response
-        value: response.data,
+        value: { ...response.data, idCampaign: campaignId },
       };
     } catch (error) {
       return {

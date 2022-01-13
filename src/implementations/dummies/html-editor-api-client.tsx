@@ -1,13 +1,15 @@
 import { timeout } from "../../utils";
-import { HtmlEditorApiClient } from "../../abstractions/html-editor-api-client";
+import {
+  CampaignDesign,
+  HtmlEditorApiClient,
+} from "../../abstractions/html-editor-api-client";
 import { ResultWithoutExpectedErrors } from "../../abstractions/common/result-types";
-import { Design } from "react-email-editor";
 import sampleUnlayerDesign from "./sample-unlayer-design.json";
 
 export class DummyHtmlEditorApiClient implements HtmlEditorApiClient {
   public getCampaignContent: (
     campaignId: string
-  ) => Promise<ResultWithoutExpectedErrors<Design>> = async (
+  ) => Promise<ResultWithoutExpectedErrors<CampaignDesign>> = async (
     campaignId: string
   ) => {
     console.log("Begin getCampaignContent...", {
@@ -15,9 +17,15 @@ export class DummyHtmlEditorApiClient implements HtmlEditorApiClient {
     });
     await timeout(1000);
 
-    const result: ResultWithoutExpectedErrors<Design> = {
+    const value = JSON.parse(JSON.stringify(sampleUnlayerDesign)) as any;
+    //const value = sampleUnlayerDesign;
+    value.body.rows[0].columns[0].contents[0].values.text = `SOY CampaignDesign #${campaignId}`;
+    value.idCampaign = campaignId;
+
+    const result: ResultWithoutExpectedErrors<CampaignDesign> = {
       success: true,
-      value: sampleUnlayerDesign,
+      //value: { ...sampleUnlayerDesign, idCampaign: campaignId},
+      value,
     };
     console.log("End getCampaignContent", { result });
     return result;

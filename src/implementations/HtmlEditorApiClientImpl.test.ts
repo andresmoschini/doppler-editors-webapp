@@ -63,7 +63,7 @@ describe(HtmlEditorApiClientImpl.name, () => {
 
       expect(result).toEqual({
         success: true,
-        value: apiResponse, // if we sanitize the input this behavior will change
+        value: { idCampaign: campaignId }, // if we sanitize the input this behavior will change
       });
     });
 
