@@ -15,6 +15,8 @@ import { DopplerLegacyClientImpl } from "./implementations/DopplerLegacyClientIm
 import { DummyDopplerLegacyClient } from "./implementations/dummies/doppler-legacy-client";
 import { DummyHtmlEditorApiClient } from "./implementations/dummies/html-editor-api-client";
 import { HtmlEditorApiClientImpl } from "./implementations/HtmlEditorApiClientImpl";
+import { QueryClient } from "react-query";
+import { makeQueryHelper } from "react-query-helper";
 
 export const configureApp = (
   customConfiguration: Partial<AppConfiguration>
@@ -50,6 +52,26 @@ export const configureApp = (
       new PullingAppSessionStateMonitor({
         appSessionStateWrapper,
         appServices,
+      }),
+    queryClientFactory: () => new QueryClient(),
+    getCampaignContentQueryClientFactory: (appServices: AppServices) =>
+      makeQueryHelper({
+        queryClient: appServices.queryClient,
+        baseQueryKey: ["htmlEditorApiClient.getCampaignContent"],
+        queryFn: () => async (idCampaign: string) => {
+          if (!idCampaign) {
+            throw new Error("Missing idCampaign");
+          }
+          const result =
+            await appServices.htmlEditorApiClient.getCampaignContent(
+              idCampaign
+            );
+          if (result.success) {
+            return result.value;
+          } else if (result.unexpectedError) {
+            throw result.unexpectedError;
+          }
+        },
       }),
   };
 

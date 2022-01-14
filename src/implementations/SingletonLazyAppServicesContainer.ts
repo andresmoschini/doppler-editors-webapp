@@ -55,4 +55,12 @@ export class SingletonLazyAppServicesContainer implements AppServices {
   get htmlEditorApiClient() {
     return this.singleton("htmlEditorApiClient");
   }
+
+  get queryClient() {
+    return this.singleton("queryClient");
+  }
+
+  get getCampaignContentQueryClient() {
+    return this.singleton("getCampaignContentQueryClient");
+  }
 }

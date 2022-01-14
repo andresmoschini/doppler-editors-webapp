@@ -7,6 +7,7 @@ import { reportWebVitals } from "./reportWebVitals";
 import { configureApp } from "./composition-root";
 import { AppServicesProvider } from "./components/AppServicesContext";
 import { AppSessionStateProvider } from "./components/AppSessionStateContext";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 const customConfiguration =
   (window as any)["editors-webapp-configuration"] || {};
@@ -19,11 +20,15 @@ appSessionStateMonitor.start();
 render(
   <StrictMode>
     <AppServicesProvider appServices={appServices}>
-      <AppSessionStateProvider appSessionStateMonitor={appSessionStateMonitor}>
-        <BrowserRouter basename={appServices.appConfiguration.basename}>
-          <App />
-        </BrowserRouter>
-      </AppSessionStateProvider>
+      <QueryClientProvider client={appServices.queryClient}>
+        <AppSessionStateProvider
+          appSessionStateMonitor={appSessionStateMonitor}
+        >
+          <BrowserRouter basename={appServices.appConfiguration.basename}>
+            <App />
+          </BrowserRouter>
+        </AppSessionStateProvider>
+      </QueryClientProvider>
     </AppServicesProvider>
   </StrictMode>,
   document.getElementById("root")
