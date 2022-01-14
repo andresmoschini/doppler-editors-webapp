@@ -1,29 +1,14 @@
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { Editor } from "../components/Editor";
-import { useAppServices } from "./AppServicesContext";
-
+import { useGetCampaignContent } from "../hooks/useGetCampaignContent";
 export const loadingMessageTestId = "loading-message";
 export const errorMessageTestId = "error-message";
 
 export const Campaign = () => {
-  const { htmlEditorApiClient } = useAppServices();
   const { idCampaign } = useParams();
 
-  const { isLoading, error, data } = useQuery(
-    ["htmlEditorApiClient.getCampaignContent", idCampaign],
-    async () => {
-      if (!idCampaign) {
-        throw new Error("Missing idCampaign");
-      }
-      const result = await htmlEditorApiClient.getCampaignContent(idCampaign);
-      if (result.success) {
-        return result.value;
-      } else if (result.unexpectedError) {
-        throw result.unexpectedError;
-      }
-    }
-  );
+  const { isLoading, error, data } = useGetCampaignContent(idCampaign || null);
 
   console.log({ isLoading, error, idCampaign, data });
 
