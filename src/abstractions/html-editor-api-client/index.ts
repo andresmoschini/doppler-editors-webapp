@@ -1,5 +1,5 @@
 import { Design } from "react-email-editor";
-import { ResultWithoutExpectedErrors } from "../common/result-types";
+import { Result } from "../common/result-types";
 
 export interface CampaignDesign extends Design {
   idCampaign: string;
@@ -8,5 +8,5 @@ export interface CampaignDesign extends Design {
 export interface HtmlEditorApiClient {
   getCampaignContent: (
     campaignId: string
-  ) => Promise<ResultWithoutExpectedErrors<CampaignDesign>>;
+  ) => Promise<Result<CampaignDesign, void>>;
 }

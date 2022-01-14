@@ -2,7 +2,7 @@ import {
   DopplerLegacyClient,
   DopplerLegacyUserData,
 } from "../abstractions/doppler-legacy-client";
-import { ResultWithoutExpectedErrors } from "../abstractions/common/result-types";
+import { Result } from "../abstractions/common/result-types";
 import { AxiosInstance, AxiosResponse, AxiosStatic } from "axios";
 import { AppConfiguration } from "../abstractions";
 
@@ -22,38 +22,28 @@ export class DopplerLegacyClientImpl implements DopplerLegacyClient {
     });
   }
 
-  async getDopplerUserData(): Promise<
-    ResultWithoutExpectedErrors<DopplerLegacyUserData>
-  > {
-    try {
-      const axiosResponse: AxiosResponse<DopplerLegacyUserData> =
-        await this.axios.get("/WebApp/GetUserData");
-      const { jwtToken, user, unlayerUser } = axiosResponse.data;
-      return {
-        success: true,
-        value: {
-          jwtToken,
-          user: {
-            email: user.email,
-            fullname: user.fullname,
-            lang: user.lang,
-            avatar: {
-              text: user.avatar.text,
-              color: user.avatar.color,
-            },
-          },
-          unlayerUser: {
-            id: unlayerUser.id,
-            signature: unlayerUser.signature,
+  async getDopplerUserData(): Promise<Result<DopplerLegacyUserData, void>> {
+    const axiosResponse: AxiosResponse<DopplerLegacyUserData> =
+      await this.axios.get("/WebApp/GetUserData");
+    const { jwtToken, user, unlayerUser } = axiosResponse.data;
+    return {
+      success: true,
+      value: {
+        jwtToken,
+        user: {
+          email: user.email,
+          fullname: user.fullname,
+          lang: user.lang,
+          avatar: {
+            text: user.avatar.text,
+            color: user.avatar.color,
           },
         },
-      };
-    } catch (error) {
-      console.error("Error loading GetUserData", error);
-      return {
-        success: false,
-        unexpectedError: error,
-      };
-    }
+        unlayerUser: {
+          id: unlayerUser.id,
+          signature: unlayerUser.signature,
+        },
+      },
+    };
   }
 }

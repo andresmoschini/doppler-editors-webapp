@@ -1,22 +1,8 @@
-export type UnexpectedError = { success: false; unexpectedError: any };
+type SuccessResult<TResult> = TResult extends void
+  ? { success: true }
+  : { success: true; value: TResult };
+type ErrorResult<TExpectedError> = { success: false; error: TExpectedError };
 
-export type ErrorResult<TError> =
-  | { success: false; expectedError: TError }
-  | UnexpectedError;
-
-export type Result<TResult, TError> =
-  | { success: true; value: TResult }
-  | ErrorResult<TError>;
-
-export type ResultWithoutExpectedErrors<TResult> =
-  | { success: true; value: TResult }
-  | UnexpectedError;
-
-export type EmptyResult<TError> = { success: true } | ErrorResult<TError>;
-// It does not work:
-// type EmptyResult = { success: true } | UnexpectedError;
-// Duplicate identifier 'EmptyResult'.ts(2300)
-// TODO: Research how to fix it and rename EmptyResultWithoutExpectedErrors as EmptyResult
-export type EmptyResultWithoutExpectedErrors =
-  | { success: true }
-  | UnexpectedError;
+export type Result<TResult, TExpectedError> = TExpectedError extends void
+  ? SuccessResult<TResult>
+  : SuccessResult<TResult> | ErrorResult<TExpectedError>;

@@ -1,4 +1,4 @@
-import { ResultWithoutExpectedErrors } from "../abstractions/common/result-types";
+import { Result } from "../abstractions/common/result-types";
 import { AppConfiguration } from "../abstractions";
 import {
   CampaignDesign,
@@ -48,21 +48,14 @@ export class HtmlEditorApiClientImpl implements HtmlEditorApiClient {
 
   async getCampaignContent(
     campaignId: string
-  ): Promise<ResultWithoutExpectedErrors<CampaignDesign>> {
-    try {
-      const response = await this.GET<any>(
-        `/campaigns/${campaignId}/content/design`
-      );
-      return {
-        success: true,
-        // TODO: consider to sanitize and validate this response
-        value: { ...response.data, idCampaign: campaignId },
-      };
-    } catch (error) {
-      return {
-        success: false,
-        unexpectedError: error,
-      };
-    }
+  ): Promise<Result<CampaignDesign, void>> {
+    const response = await this.GET<any>(
+      `/campaigns/${campaignId}/content/design`
+    );
+    return {
+      success: true,
+      // TODO: consider to sanitize and validate this response
+      value: { ...response.data, idCampaign: campaignId },
+    };
   }
 }

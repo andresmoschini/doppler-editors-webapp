@@ -61,7 +61,7 @@ describe(DopplerLegacyClientImpl.name, () => {
     });
   });
 
-  it("should be return error object", async () => {
+  it("should throw error", async () => {
     const errorMock = new Error("Network Error");
     const axiosInstanceMock = {
       create() {
@@ -81,13 +81,10 @@ describe(DopplerLegacyClientImpl.name, () => {
       appConfiguration: appConfigurationResult,
     });
 
-    // Act
-    const result = await dopplerLegacyInstance.getDopplerUserData();
-
     // Assert
-    expect(result).toEqual({
-      success: false,
-      unexpectedError: errorMock,
-    });
+    await expect(async () => {
+      // Act
+      await dopplerLegacyInstance.getDopplerUserData();
+    }).rejects.toThrowError(errorMock);
   });
 });

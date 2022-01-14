@@ -31,11 +31,11 @@ describe(Campaign.name, () => {
     // Arrange
     const idCampaign = "1234";
 
-    let resolveGetCampaignContentPromise: any;
+    let rejectGetCampaignContentPromise: any;
     const getCampaignContent = jest.fn(
       () =>
-        new Promise((resolve) => {
-          resolveGetCampaignContentPromise = resolve;
+        new Promise((_, reject) => {
+          rejectGetCampaignContentPromise = reject;
         })
     );
 
@@ -66,7 +66,7 @@ describe(Campaign.name, () => {
     expect(errorMessageEl).toBeNull();
 
     // Act
-    resolveGetCampaignContentPromise({ success: false });
+    rejectGetCampaignContentPromise(new Error("Unexpected error!"));
 
     // Assert
     await screen.findByTestId(errorMessageTestId);

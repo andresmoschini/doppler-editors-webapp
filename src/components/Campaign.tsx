@@ -32,12 +32,14 @@ export const Campaign = () => {
           design: null,
         });
       } else {
-        const result = await htmlEditorApiClient.getCampaignContent(idCampaign);
-        if (result.success) {
+        try {
+          const result = await htmlEditorApiClient.getCampaignContent(
+            idCampaign
+          );
           setState({ design: result.value, loading: false, error: null });
-        } else {
+        } catch (e) {
           setState({
-            error: result.unexpectedError,
+            error: e,
             loading: false,
             design: null,
           });

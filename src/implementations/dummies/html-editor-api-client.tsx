@@ -3,15 +3,13 @@ import {
   CampaignDesign,
   HtmlEditorApiClient,
 } from "../../abstractions/html-editor-api-client";
-import { ResultWithoutExpectedErrors } from "../../abstractions/common/result-types";
+import { Result } from "../../abstractions/common/result-types";
 import sampleUnlayerDesign from "./sample-unlayer-design.json";
 
 export class DummyHtmlEditorApiClient implements HtmlEditorApiClient {
   public getCampaignContent: (
     campaignId: string
-  ) => Promise<ResultWithoutExpectedErrors<CampaignDesign>> = async (
-    campaignId: string
-  ) => {
+  ) => Promise<Result<CampaignDesign, void>> = async (campaignId: string) => {
     console.log("Begin getCampaignContent...", {
       campaignId,
     });
@@ -22,7 +20,7 @@ export class DummyHtmlEditorApiClient implements HtmlEditorApiClient {
     value.body.rows[0].columns[0].contents[0].values.text = `SOY CampaignDesign #${campaignId}`;
     value.idCampaign = campaignId;
 
-    const result: ResultWithoutExpectedErrors<CampaignDesign> = {
+    const result: Result<CampaignDesign, void> = {
       success: true,
       //value: { ...sampleUnlayerDesign, idCampaign: campaignId},
       value,
