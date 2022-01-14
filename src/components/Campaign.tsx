@@ -1,68 +1,31 @@
-import { useEffect, useState } from "react";
-import { Design } from "react-email-editor";
+import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import { UnexpectedError } from "../abstractions/common/result-types";
 import { Editor } from "../components/Editor";
-import { useAppServices } from "./AppServicesContext";
-
-type LoadingDesignState =
-  | { loading: true; error: null; design: null }
-  | { error: UnexpectedError; loading: false; design: null }
-  | { design: Design; loading: false; error: null };
-
+import { useGetCampaignContent } from "../hooks/useGetCampaignContent";
 export const loadingMessageTestId = "loading-message";
 export const errorMessageTestId = "error-message";
 
 export const Campaign = () => {
-  const { htmlEditorApiClient } = useAppServices();
   const { idCampaign } = useParams();
 
-  const [state, setState] = useState<LoadingDesignState>({
-    loading: true,
-    error: null,
-    design: null,
-  });
+  const { isLoading, error, data } = useGetCampaignContent(idCampaign || null);
 
-  useEffect(() => {
-    const loadDesign = async () => {
-      if (!idCampaign) {
-        setState({
-          error: { success: false, unexpectedError: "Missing idCampaign" },
-          loading: false,
-          design: null,
-        });
-      } else {
-        try {
-          const result = await htmlEditorApiClient.getCampaignContent(
-            idCampaign
-          );
-          setState({ design: result.value, loading: false, error: null });
-        } catch (e) {
-          setState({
-            error: e,
-            loading: false,
-            design: null,
-          });
-        }
-      }
-    };
-    loadDesign();
-  }, [idCampaign, htmlEditorApiClient]);
+  console.log({ isLoading, error, idCampaign, data });
 
-  if (!state.loading && !state.design) {
+  if (error) {
     return (
       <div data-testid={errorMessageTestId}>
-        Unexpected Error: <pre>{JSON.stringify(state.error)}</pre>
+        Unexpected Error: <pre>{JSON.stringify(error)}</pre>
       </div>
     );
   }
 
   return (
     <>
-      {state.loading ? (
+      {isLoading ? (
         <div data-testid={loadingMessageTestId}>Loading...</div>
       ) : null}
-      <Editor design={state.design}></Editor>;
+      <Editor design={data || null}></Editor>;
     </>
   );
 };

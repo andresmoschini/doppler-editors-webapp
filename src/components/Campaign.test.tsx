@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { AppServices } from "../abstractions";
 import { HtmlEditorApiClient } from "../abstractions/html-editor-api-client";
@@ -26,6 +27,15 @@ const baseAppServices = {
   },
 } as AppServices;
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      cacheTime: 0,
+    },
+  },
+});
+
 describe(Campaign.name, () => {
   it("should show loading and then error when getCampaignContent is not successful", async () => {
     // Arrange
@@ -48,11 +58,13 @@ describe(Campaign.name, () => {
       <AppServicesProvider
         appServices={{ ...baseAppServices, htmlEditorApiClient }}
       >
-        <MemoryRouter initialEntries={[`/${idCampaign}`]}>
-          <Routes>
-            <Route path="/:idCampaign" element={<Campaign />} />
-          </Routes>
-        </MemoryRouter>
+        <QueryClientProvider client={queryClient}>
+          <MemoryRouter initialEntries={[`/${idCampaign}`]}>
+            <Routes>
+              <Route path="/:idCampaign" element={<Campaign />} />
+            </Routes>
+          </MemoryRouter>
+        </QueryClientProvider>
       </AppServicesProvider>
     );
 
@@ -99,11 +111,13 @@ describe(Campaign.name, () => {
       <AppServicesProvider
         appServices={{ ...baseAppServices, htmlEditorApiClient }}
       >
-        <MemoryRouter initialEntries={[`/${idCampaign}`]}>
-          <Routes>
-            <Route path="/:idCampaign" element={<Campaign />} />
-          </Routes>
-        </MemoryRouter>
+        <QueryClientProvider client={queryClient}>
+          <MemoryRouter initialEntries={[`/${idCampaign}`]}>
+            <Routes>
+              <Route path="/:idCampaign" element={<Campaign />} />
+            </Routes>
+          </MemoryRouter>
+        </QueryClientProvider>
       </AppServicesProvider>
     );
 
