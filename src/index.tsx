@@ -8,6 +8,7 @@ import { configureApp } from "./composition-root";
 import { AppServicesProvider } from "./components/AppServicesContext";
 import { AppSessionStateProvider } from "./components/AppSessionStateContext";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 const customConfiguration =
   (window as any)["editors-webapp-configuration"] || {};
@@ -30,6 +31,7 @@ render(
             <App />
           </BrowserRouter>
         </AppSessionStateProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </AppServicesProvider>
   </StrictMode>,
