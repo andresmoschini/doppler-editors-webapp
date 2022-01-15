@@ -40,13 +40,21 @@ export class PullingAppSessionStateMonitor implements AppSessionStateMonitor {
   private async fetchDopplerUserData(): Promise<AppSessionState> {
     try {
       const result = await this._dopplerLegacyClient.getDopplerUserData();
-      return {
-        status: "authenticated",
-        jwtToken: result.value.jwtToken,
-        dopplerAccountName: result.value.user.email,
-        unlayerUser: result.value.unlayerUser,
-      };
+
+      if (result.success) {
+        return {
+          status: "authenticated",
+          jwtToken: result.value.jwtToken,
+          dopplerAccountName: result.value.user.email,
+          unlayerUser: result.value.unlayerUser,
+        };
+      }
+
+      // result.notAuthenticated)
+      return { status: "non-authenticated" };
     } catch (e) {
+      // Really unexpected
+      console.error({ unexpectedError: e });
       return { status: "non-authenticated" };
     }
   }

@@ -2,6 +2,7 @@ import { timeout } from "../../utils";
 import {
   DopplerLegacyClient,
   DopplerLegacyUserData,
+  NotAuthenticatedResult,
 } from "../../abstractions/doppler-legacy-client";
 import { Result } from "../../abstractions/common/result-types";
 
@@ -9,11 +10,11 @@ let counter = 0;
 
 export class DummyDopplerLegacyClient implements DopplerLegacyClient {
   public getDopplerUserData: () => Promise<
-    Result<DopplerLegacyUserData, void>
+    Result<DopplerLegacyUserData, NotAuthenticatedResult>
   > = async () => {
     console.log("Begin getDopplerUserData...");
     await timeout(3000);
-    const result: Result<DopplerLegacyUserData, void> = {
+    const result: Result<DopplerLegacyUserData> = {
       success: true,
       value: {
         jwtToken: `jwtToken-${counter++}`,

@@ -48,7 +48,7 @@ export class HtmlEditorApiClientImpl implements HtmlEditorApiClient {
 
   async getCampaignContent(
     campaignId: string
-  ): Promise<Result<CampaignDesign, void>> {
+  ): Promise<Result<CampaignDesign>> {
     const response = await this.GET<any>(
       `/campaigns/${campaignId}/content/design`
     );

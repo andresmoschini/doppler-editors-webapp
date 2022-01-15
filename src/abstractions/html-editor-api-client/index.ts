@@ -6,7 +6,5 @@ export interface CampaignDesign extends Design {
 }
 
 export interface HtmlEditorApiClient {
-  getCampaignContent: (
-    campaignId: string
-  ) => Promise<Result<CampaignDesign, void>>;
+  getCampaignContent: (campaignId: string) => Promise<Result<CampaignDesign>>;
 }

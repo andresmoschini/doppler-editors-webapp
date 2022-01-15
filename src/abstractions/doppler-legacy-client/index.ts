@@ -14,6 +14,13 @@ export type DopplerLegacyUserData = {
   unlayerUser: { id: string; signature: string };
 };
 
+export type NotAuthenticatedResult = {
+  notAuthenticated: true;
+  error: unknown;
+};
+
 export interface DopplerLegacyClient {
-  getDopplerUserData: () => Promise<Result<DopplerLegacyUserData, void>>;
+  getDopplerUserData: () => Promise<
+    Result<DopplerLegacyUserData, NotAuthenticatedResult>
+  >;
 }

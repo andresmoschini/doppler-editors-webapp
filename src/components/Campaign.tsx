@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { Design } from "react-email-editor";
 import { useParams } from "react-router-dom";
-import { UnexpectedError } from "../abstractions/common/result-types";
 import { Editor } from "../components/Editor";
 import { useAppServices } from "./AppServicesContext";
 
 type LoadingDesignState =
   | { loading: true; error: null; design: null }
-  | { error: UnexpectedError; loading: false; design: null }
+  | { error: unknown; loading: false; design: null }
   | { design: Design; loading: false; error: null };
 
 export const loadingMessageTestId = "loading-message";
