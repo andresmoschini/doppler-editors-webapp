@@ -5,8 +5,14 @@ export const useGetCampaignContent = (idCampaign: string | undefined) => {
   const { htmlEditorApiClient } = useAppServices();
 
   return useQuery({
-    queryKey: ["campaign-content", idCampaign],
-    queryFn: async () => {
+    queryKey: [
+      {
+        scope: "campaign-contents",
+        idCampaign,
+      },
+    ],
+    queryFn: async (context) => {
+      const [{ idCampaign }] = context.queryKey;
       if (!idCampaign) {
         throw new Error("Missing idCampaign");
       }
