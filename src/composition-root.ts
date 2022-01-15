@@ -30,6 +30,7 @@ export const configureApp = (
 
   const realFactories: ServicesFactories = {
     windowFactory: () => window,
+    consoleFactory: () => console,
     axiosStaticFactory: () => axios,
     appConfigurationFactory: () => appConfiguration,
     appConfigurationRendererFactory: (appServices: AppServices) =>
@@ -38,6 +39,7 @@ export const configureApp = (
       new DopplerLegacyClientImpl({
         axiosStatic: appServices.axiosStatic,
         appConfiguration: appServices.appConfiguration,
+        console: appServices.console
       }),
     htmlEditorApiClientFactory: (appServices) =>
       new HtmlEditorApiClientImpl({

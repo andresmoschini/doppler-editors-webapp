@@ -49,6 +49,10 @@ describe(Campaign.name, () => {
         })
     );
 
+    const console = {
+      error: jest.fn()
+    } as unknown as Console;
+
     const htmlEditorApiClient = {
       getCampaignContent,
     } as unknown as HtmlEditorApiClient;
@@ -56,7 +60,7 @@ describe(Campaign.name, () => {
     // Act
     render(
       <AppServicesProvider
-        appServices={{ ...baseAppServices, htmlEditorApiClient }}
+        appServices={{ ...baseAppServices, console, htmlEditorApiClient }}
       >
         <QueryClientProvider client={queryClient}>
           <MemoryRouter initialEntries={[`/${idCampaign}`]}>

@@ -47,6 +47,7 @@ describe(DopplerLegacyClientImpl.name, () => {
 
     const appConfigurationResult = {} as unknown as AppConfiguration;
     const dopplerLegacyInstance = new DopplerLegacyClientImpl({
+      console,
       axiosStatic: axiosInstanceMock,
       appConfiguration: appConfigurationResult,
     });
@@ -75,8 +76,14 @@ describe(DopplerLegacyClientImpl.name, () => {
         };
       },
     } as AxiosStatic;
+
+    const console = {
+      error: jest.fn()
+    } as unknown as Console;
+
     const appConfigurationResult = {} as unknown as AppConfiguration;
     const dopplerLegacyInstance = new DopplerLegacyClientImpl({
+      console,
       axiosStatic: axiosInstanceMock,
       appConfiguration: appConfigurationResult,
     });
@@ -90,5 +97,6 @@ describe(DopplerLegacyClientImpl.name, () => {
       notAuthenticated: true,
       error: errorMock,
     });
+    expect(console.error).toBeCalledWith("Error loading GetUserData", errorMock);
   });
 });

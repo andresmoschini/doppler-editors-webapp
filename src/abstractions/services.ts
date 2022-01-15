@@ -10,6 +10,7 @@ import { HtmlEditorApiClient } from "./html-editor-api-client";
 // type AppServicesTuple = [ Window, AppConfiguration ]
 export type AppServices = {
   window: Window;
+  console: Console;
   axiosStatic: AxiosStatic;
   appConfiguration: AppConfiguration;
   appConfigurationRenderer: AppConfigurationRenderer;

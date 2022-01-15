@@ -28,6 +28,10 @@ export class SingletonLazyAppServicesContainer implements AppServices {
     return this.singleton("window");
   }
 
+  get console() {
+    return this.singleton("console");
+  }
+
   get appConfiguration() {
     return this.singleton("appConfiguration");
   }

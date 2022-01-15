@@ -11,6 +11,7 @@ const SESSION_STATE_UPDATE = Symbol("SESSION_STATE_UPDATE");
 export class PullingAppSessionStateMonitor implements AppSessionStateMonitor {
   private readonly _appSessionStateWrapper;
   private readonly _window;
+  private readonly _console;
   private readonly _dopplerLegacyClient;
   private readonly _eventEmitter = new EventEmitter();
   private readonly _keepAliveMilliseconds;
@@ -19,6 +20,7 @@ export class PullingAppSessionStateMonitor implements AppSessionStateMonitor {
     appSessionStateWrapper,
     appServices: {
       window,
+      console,
       dopplerLegacyClient,
       appConfiguration: { keepAliveMilliseconds },
     },
@@ -26,6 +28,7 @@ export class PullingAppSessionStateMonitor implements AppSessionStateMonitor {
     appSessionStateWrapper: { current: AppSessionState };
     appServices: AppServices;
   }) {
+    this._console = console;
     this._appSessionStateWrapper = appSessionStateWrapper;
     this._window = window;
     this._dopplerLegacyClient = dopplerLegacyClient;
@@ -54,7 +57,7 @@ export class PullingAppSessionStateMonitor implements AppSessionStateMonitor {
       return { status: "non-authenticated" };
     } catch (e) {
       // Really unexpected
-      console.error({ unexpectedError: e });
+      this._console.error({ unexpectedError: e });
       return { status: "non-authenticated" };
     }
   }

@@ -8,15 +8,19 @@ import { AxiosInstance, AxiosResponse, AxiosStatic } from "axios";
 import { AppConfiguration } from "../abstractions";
 
 export class DopplerLegacyClientImpl implements DopplerLegacyClient {
+  private console: Console;
   private axios: AxiosInstance;
 
   constructor({
+    console,
     axiosStatic,
     appConfiguration: { dopplerLegacyBaseUrl },
   }: {
+    console: Console;
     axiosStatic: AxiosStatic;
     appConfiguration: Partial<AppConfiguration>;
   }) {
+    this.console = console;
     this.axios = axiosStatic.create({
       baseURL: dopplerLegacyBaseUrl,
       withCredentials: true,
@@ -50,7 +54,7 @@ export class DopplerLegacyClientImpl implements DopplerLegacyClient {
         },
       };
     } catch (error) {
-      console.error("Error loading GetUserData", error);
+      this.console.error("Error loading GetUserData", error);
       return {
         success: false,
         notAuthenticated: true,
