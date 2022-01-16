@@ -16,6 +16,7 @@ export function Main() {
             <Link to="/campaigns/123">campaigns/123</Link> |{" "}
             <Link to="/campaigns/456">campaigns/456</Link> |{" "}
             <Link to="/campaigns/789">campaigns/789</Link> |{" "}
+            <Link to="/templates/1">/templates/1</Link> |{" "}
           </div>
           <div>
             {/* links to Doppler WebApp app (assuming that domain is shared) */}
