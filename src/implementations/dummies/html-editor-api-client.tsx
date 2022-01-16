@@ -17,7 +17,7 @@ export class DummyHtmlEditorApiClient implements HtmlEditorApiClient {
 
     const value = JSON.parse(JSON.stringify(sampleUnlayerDesign)) as any;
     //const value = sampleUnlayerDesign;
-    value.body.rows[0].columns[0].contents[0].values.text = `SOY CampaignDesign #${campaignId}`;
+    value.body.rows[0].columns[0].contents[0].values.text = `SOY CampaignDesign #${campaignId} ${new Date().getMinutes()}`;
     value.idCampaign = campaignId;
 
     const result: Result<CampaignDesign> = {
