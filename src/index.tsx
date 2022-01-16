@@ -11,7 +11,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { persistQueryClient } from "react-query/persistQueryClient-experimental";
 import { createWebStoragePersistor } from "react-query/createWebStoragePersistor-experimental";
-import { broadcastQueryClient } from 'react-query/broadcastQueryClient-experimental'
+import { broadcastQueryClient } from "react-query/broadcastQueryClient-experimental";
 
 const customConfiguration =
   (window as any)["editors-webapp-configuration"] || {};
@@ -31,7 +31,6 @@ const queryClient = new QueryClient({
   },
 });
 
-
 const localStoragePersistor = createWebStoragePersistor({
   storage: window.localStorage,
 });
@@ -39,7 +38,7 @@ const localStoragePersistor = createWebStoragePersistor({
 persistQueryClient({
   queryClient,
   persistor: localStoragePersistor,
-  buster: "" // TODO: use app version?
+  buster: "", // TODO: use app version?
 });
 
 // broadcastQueryClient({
@@ -69,4 +68,3 @@ render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
-
