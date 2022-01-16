@@ -12,6 +12,7 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { persistQueryClient } from "react-query/persistQueryClient-experimental";
 import { createWebStoragePersistor } from "react-query/createWebStoragePersistor-experimental";
 import { broadcastQueryClient } from "react-query/broadcastQueryClient-experimental";
+import { SingletonDesignProvider } from "./components/SingletonEditor";
 
 const customConfiguration =
   (window as any)["editors-webapp-configuration"] || {};
@@ -53,9 +54,11 @@ render(
         <AppSessionStateProvider
           appSessionStateMonitor={appSessionStateMonitor}
         >
-          <BrowserRouter basename={appServices.appConfiguration.basename}>
-            <App />
-          </BrowserRouter>
+          <SingletonDesignProvider>
+            <BrowserRouter basename={appServices.appConfiguration.basename}>
+              <App />
+            </BrowserRouter>
+          </SingletonDesignProvider>
         </AppSessionStateProvider>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>

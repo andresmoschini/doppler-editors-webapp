@@ -12,9 +12,8 @@ interface ExtendedUnlayerUser extends User {
 }
 
 const emptyDesign = {
-  "body": {
-    "rows": [
-    ],
+  body: {
+    rows: [],
   },
 };
 

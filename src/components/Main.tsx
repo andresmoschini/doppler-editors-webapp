@@ -1,6 +1,7 @@
 import { Link, Outlet } from "react-router-dom";
 import logo from "./logo.svg";
 import "./Main.css";
+import { SingletonEditor } from "./SingletonEditor";
 
 export function Main() {
   return (
@@ -26,6 +27,7 @@ export function Main() {
         </nav>
       </header>
       <Outlet />
+      <SingletonEditor />
     </div>
   );
 }

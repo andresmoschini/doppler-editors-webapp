@@ -38,9 +38,11 @@ export const Campaign = () => {
           </button>
           <button
             onClick={() =>
-              queryClient.invalidateQueries([{
-                scope: "campaign-contents"
-               }])
+              queryClient.invalidateQueries([
+                {
+                  scope: "campaign-contents",
+                },
+              ])
             }
           >
             INVALIDATE
