@@ -1,11 +1,14 @@
 import { useParams } from "react-router-dom";
 import { Editor } from "../components/Editor";
 import { useGetCampaignContent } from "../hooks/useGetCampaignContent";
+import { useQueryClient } from "react-query";
+
 export const loadingMessageTestId = "loading-message";
 export const errorMessageTestId = "error-message";
 
 export const Campaign = () => {
   const { idCampaign } = useParams();
+  const queryClient = useQueryClient();
 
   const campaignContentQuery = useGetCampaignContent(idCampaign);
 
@@ -32,6 +35,15 @@ export const Campaign = () => {
             }
           >
             Modify!
+          </button>
+          <button
+            onClick={() =>
+              queryClient.invalidateQueries([{
+                scope: "campaign-contents"
+               }])
+            }
+          >
+            INVALIDATE
           </button>
         </div>
       )}
