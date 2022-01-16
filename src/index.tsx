@@ -9,6 +9,9 @@ import { AppServicesProvider } from "./components/AppServicesContext";
 import { AppSessionStateProvider } from "./components/AppSessionStateContext";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { persistQueryClient } from "react-query/persistQueryClient-experimental";
+import { createWebStoragePersistor } from "react-query/createWebStoragePersistor-experimental";
+import { broadcastQueryClient } from 'react-query/broadcastQueryClient-experimental'
 
 const customConfiguration =
   (window as any)["editors-webapp-configuration"] || {};
@@ -18,7 +21,31 @@ const appServices = configureApp(customConfiguration);
 const appSessionStateMonitor = appServices.appSessionStateMonitor;
 appSessionStateMonitor.start();
 
-const queryClient = new QueryClient();
+// TODO: consider to move QueryClient configuration to composition-root
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      cacheTime: 1000 * 60 * 60 * 24, // 24 hours
+    },
+  },
+});
+
+
+const localStoragePersistor = createWebStoragePersistor({
+  storage: window.localStorage,
+});
+
+persistQueryClient({
+  queryClient,
+  persistor: localStoragePersistor,
+  buster: "" // TODO: use app version?
+});
+
+// broadcastQueryClient({
+//   queryClient,
+//   broadcastChannel: 'my-app',
+// });
 
 render(
   <StrictMode>
@@ -42,3 +69,4 @@ render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
