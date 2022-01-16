@@ -7,7 +7,7 @@ import { reportWebVitals } from "./reportWebVitals";
 import { configureApp } from "./composition-root";
 import { AppServicesProvider } from "./components/AppServicesContext";
 import { AppSessionStateProvider } from "./components/AppSessionStateContext";
-import { SingletonDesignProvider } from './components/SingletonEditor';
+import { SingletonDesignProvider } from "./components/SingletonEditor";
 
 const customConfiguration =
   (window as any)["editors-webapp-configuration"] || {};

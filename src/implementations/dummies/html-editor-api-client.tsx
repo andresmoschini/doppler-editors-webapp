@@ -1,15 +1,15 @@
 import { timeout } from "../../utils";
-import {
-  HtmlEditorApiClient,
-} from "../../abstractions/html-editor-api-client";
+import { HtmlEditorApiClient } from "../../abstractions/html-editor-api-client";
 import { ResultWithoutExpectedErrors } from "../../abstractions/common/result-types";
 import sampleUnlayerDesign from "./sample-unlayer-design.json";
-import { Design } from 'react-email-editor';
+import { Design } from "react-email-editor";
 
 export class DummyHtmlEditorApiClient implements HtmlEditorApiClient {
   public getCampaignContent: (
     campaignId: string
-  ) => Promise<ResultWithoutExpectedErrors<Design>> = async (campaignId: string) => {
+  ) => Promise<ResultWithoutExpectedErrors<Design>> = async (
+    campaignId: string
+  ) => {
     console.log("Begin getCampaignContent...", {
       campaignId,
     });
