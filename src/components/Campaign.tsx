@@ -54,6 +54,10 @@ export const Campaign = () => {
   useEffect(() => {
     console.log("setSingletonDesign", state.design);
     setSingletonDesign(state.design);
+    return () => {
+      console.log("setSingletonDesign", null);
+      setSingletonDesign(null);
+    };
   }, [state.design]);
 
   if (!state.loading && !state.design) {
