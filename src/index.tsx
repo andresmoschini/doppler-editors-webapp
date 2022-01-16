@@ -7,6 +7,7 @@ import { reportWebVitals } from "./reportWebVitals";
 import { configureApp } from "./composition-root";
 import { AppServicesProvider } from "./components/AppServicesContext";
 import { AppSessionStateProvider } from "./components/AppSessionStateContext";
+import { SingletonDesignProvider } from './components/SingletonEditor';
 
 const customConfiguration =
   (window as any)["editors-webapp-configuration"] || {};
@@ -20,9 +21,11 @@ render(
   <StrictMode>
     <AppServicesProvider appServices={appServices}>
       <AppSessionStateProvider appSessionStateMonitor={appSessionStateMonitor}>
-        <BrowserRouter basename={appServices.appConfiguration.basename}>
-          <App />
-        </BrowserRouter>
+        <SingletonDesignProvider>
+          <BrowserRouter basename={appServices.appConfiguration.basename}>
+            <App />
+          </BrowserRouter>
+        </SingletonDesignProvider>
       </AppSessionStateProvider>
     </AppServicesProvider>
   </StrictMode>,

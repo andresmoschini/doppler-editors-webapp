@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { Design } from "react-email-editor";
 import { useParams } from "react-router-dom";
 import { UnexpectedError } from "../abstractions/common/result-types";
-import { Editor } from "../components/Editor";
+// import { Editor } from "../components/Editor";
 import { useAppServices } from "./AppServicesContext";
+import { useSetSingletonDesign } from "./SingletonEditor";
 
 type LoadingDesignState =
   | { loading: true; error: null; design: null }
@@ -22,6 +23,9 @@ export const Campaign = () => {
     error: null,
     design: null,
   });
+
+  const setSingletonDesign = useSetSingletonDesign();
+  console.log(setSingletonDesign);
 
   useEffect(() => {
     const loadDesign = async () => {
@@ -47,6 +51,11 @@ export const Campaign = () => {
     loadDesign();
   }, [idCampaign, htmlEditorApiClient]);
 
+  useEffect(() => {
+    console.log("setSingletonDesign", state.design);
+    setSingletonDesign(state.design);
+  }, [state.design]);
+
   if (!state.loading && !state.design) {
     return (
       <div data-testid={errorMessageTestId}>
@@ -60,7 +69,7 @@ export const Campaign = () => {
       {state.loading ? (
         <div data-testid={loadingMessageTestId}>Loading...</div>
       ) : null}
-      <Editor design={state.design}></Editor>;
+      MOSTRAR EDITOR
     </>
   );
 };
