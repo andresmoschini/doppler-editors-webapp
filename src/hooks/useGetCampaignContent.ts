@@ -19,5 +19,8 @@ export const useGetCampaignContent = (idCampaign: string | undefined) => {
       const result = await htmlEditorApiClient.getCampaignContent(idCampaign);
       return result.value;
     },
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 };
