@@ -22,6 +22,7 @@ export const Editor = ({ design }: { design: Design | undefined }) => {
 
   useEffect(() => {
     if (design && emailEditorLoaded) {
+      console.log("loadDesign");
       emailEditorRef?.current?.loadDesign(design);
     }
   }, [design, emailEditorLoaded]);

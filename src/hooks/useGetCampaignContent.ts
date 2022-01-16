@@ -1,10 +1,11 @@
+// import { useEffect } from 'react';
 import { useQuery } from "react-query";
 import { useAppServices } from "../components/AppServicesContext";
 
 export const useGetCampaignContent = (idCampaign: string | undefined) => {
   const { htmlEditorApiClient } = useAppServices();
 
-  return useQuery({
+  const query = useQuery({
     queryKey: [
       {
         scope: "campaign-contents",
@@ -19,8 +20,15 @@ export const useGetCampaignContent = (idCampaign: string | undefined) => {
       const result = await htmlEditorApiClient.getCampaignContent(idCampaign);
       return result.value;
     },
+    //enabled: false,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
   });
+
+  // useEffect(() => {
+  //   query.refetch();
+  // }, [idCampaign])
+
+  return query;
 };

@@ -22,7 +22,19 @@ export const Campaign = () => {
     <>
       {campaignContentQuery.isLoading ? (
         <div data-testid={loadingMessageTestId}>Loading...</div>
-      ) : null}
+      ) : (
+        <div>
+          <button
+            onClick={() =>
+              ((
+                campaignContentQuery.data as any
+              ).body.rows[0].columns[0].contents[0].values.text += `*`)
+            }
+          >
+            Modify!
+          </button>
+        </div>
+      )}
       <Editor design={campaignContentQuery.data}></Editor>;
     </>
   );
